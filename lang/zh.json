@@ -41,7 +41,7 @@
   "closeButtonText": "关闭",
   "generateShareImageError": "生成分享图片失败，请重试",
   "enterRequestPrompt": "请输入所求之事",
-  "qrCodeInfo": "扫描二维码体验《灵签玄机》\nhttps://fish-g.itch.io/divination",
+  "qrCodeInfo": "扫描二维码体验《灵签玄机》\nhttps://fish-gao.github.io",
   "luckIndexLabel": "幸运指数",
   "summaryLabel": "总结",
   "generatingImage": "生成中...",
