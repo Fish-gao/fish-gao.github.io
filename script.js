@@ -1179,7 +1179,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const qrCanvasElement = document.createElement('canvas'); 
             new QRious({
                 element: qrCanvasElement,
-                value: 'https://fish-g.itch.io/divination',
+                value: 'https://fish-gao.github.io',
                 size: qrSize,
                 level: 'H', 
                 background: 'rgba(255,255,255,0.9)', // Slightly transparent white
