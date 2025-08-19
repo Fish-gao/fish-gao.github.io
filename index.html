@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN"> <!-- lang 属性会由JS动态修改 -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title data-lang-key="appTitle">灵签玄机</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- 添加屏幕方向锁定提示，主要给支持的浏览器一点暗示 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- 针对旧版iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+    <div class="extra-effects-container" id="effectsContainer"></div>
+
+    <!-- 初始界面 -->
+    <div id="splash-screen">
+        <!-- 语言切换器 (顶部) -->
+        <div class="lang-switcher splash-lang-switcher">
+            <button class="lang-btn" data-lang="zh">中文</button>
+            <button class="lang-btn" data-lang="en">EN</button>
+            <!-- 后续可添加更多语言按钮 -->
+        </div>
+
+        <!-- 图片始终是 cc_min.jpg -->
+        <img src="cc_min.jpg"
+             alt="灵签玄机"
+             class="responsive-image">
+
+        <!-- 新增：文字叠加层容器 - 初始为空，由JS填充 -->
+        <div id="splash-text-overlay">
+        </div>
+
+        <div class="splash-overlay"></div> <!-- 这个元素似乎没有用到，可以考虑移除 -->
+        <div class="splash-stars">
+            <!-- 星星元素保持不变 -->
+            <div class="splash-star" style="top: 10%; left: 15%;"></div>
+            <div class="splash-star" style="top: 15%; left: 85%; animation-delay: 0.4s;"></div>
+            <div class="splash-star" style="top: 25%; left: 30%; animation-delay: 0.8s;"></div>
+            <div class="splash-star" style="top: 35%; left: 70%; animation-delay: 1.2s;"></div>
+            <div class="splash-star" style="top: 50%; left: 15%; animation-delay: 1.6s;"></div>
+            <div class="splash-star" style="top: 55%; left: 75%; animation-delay: 2.0s;"></div>
+            <div class="splash-star" style="top: 70%; left: 35%; animation-delay: 2.4s;"></div>
+            <div class="splash-star" style="top: 80%; left: 60%; animation-delay: 2.8s;"></div>
+            <div class="splash-star" style="top: 90%; left: 25%; animation-delay: 3.2s;"></div>
+            <div class="splash-star" style="top: 5%; left: 45%; animation-delay: 3.6s;"></div>
+            <div class="splash-star" style="top: 40%; left: 90%; animation-delay: 4.0s;"></div>
+            <div class="splash-star" style="top: 65%; left: 10%; animation-delay: 4.4s;"></div>
+        </div>
+        <div id="sun-area"></div>
+    </div>
+
+    <!-- 加载动画界面 -->
+    <div id="loading-screen" class="hidden">
+        <div class="video-container">
+            <img src="loading.gif" alt="加载中" class="loading-gif">
+            <div class="overlay-text" data-lang-key="loadingText">
+                虔诚求问 当你觉得答案<br>已经浮现 轻触屏幕
+            </div>
+            <!-- 添加星星元素 -->
+            <div class="splash-stars">
+                <div class="splash-star" style="top: 10%; left: 15%;"></div>
+                <div class="splash-star" style="top: 15%; left: 85%; animation-delay: 0.4s;"></div>
+                <div class="splash-star" style="top: 25%; left: 30%; animation-delay: 0.8s;"></div>
+                <div class="splash-star" style="top: 35%; left: 70%; animation-delay: 1.2s;"></div>
+                <div class="splash-star" style="top: 50%; left: 15%; animation-delay: 1.6s;"></div>
+                <div class="splash-star" style="top: 55%; left: 75%; animation-delay: 2.0s;"></div>
+                <div class="splash-star" style="top: 70%; left: 35%; animation-delay: 2.4s;"></div>
+                <div class="splash-star" style="top: 80%; left: 60%; animation-delay: 2.8s;"></div>
+                <div class="splash-star" style="top: 90%; left: 25%; animation-delay: 3.2s;"></div>
+                <div class="splash-star" style="top: 5%; left: 45%; animation-delay: 3.6s;"></div>
+                <div class="splash-star" style="top: 40%; left: 90%; animation-delay: 4.0s;"></div>
+                <div class="splash-star" style="top: 65%; left: 10%; animation-delay: 4.4s;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主页面 -->
+    <main id="main-content" class="hidden">
+        <div class="mystical-elements">
+            <div class="mystical-orb top-left"></div>
+            <div class="mystical-orb top-right"></div>
+            <div class="mystical-orb bottom-left"></div>
+            <div class="mystical-orb bottom-right"></div>
+        </div>
+
+        <div class="container">
+            <h1 class="title" data-lang-key="appTitle">灵签玄机</h1>
+
+            <div class="result-box">
+                <div id="qian-content" class="qian-text">
+                    <!-- 签文内容将在JavaScript中动态填充 -->
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn" data-action="fortune">
+                    <span data-lang-key="categoryFortuneButton">分类运程</span>
+                </button>
+                <button class="action-btn" data-action="tips">
+                    <span data-lang-key="outfitAdviceButton">开运锦囊</span>
+                </button>
+                <button class="action-btn" data-action="mantra">
+                    <span data-lang-key="mantraBlessingButton">佛咒加持</span>
+                </button>
+                <button class="action-btn" data-action="example" id="btn-example">
+                    <span data-lang-key="interpretationExampleButton">解读举例</span>
+                </button>
+            </div>
+
+            <!-- Container for Share and Draw buttons -->
+            <div class="main-action-buttons-container">
+                <button id="share-btn" class="share-button">
+                    <span class="icon">🔗</span>
+                    <span data-lang-key="shareButtonText">分享</span>
+                </button>
+                <button id="draw-btn" class="draw-button">
+                    <span class="icon">🔮</span>
+                    <span data-lang-key="drawNewSignButton">另求一签</span>
+                </button>
+            </div>
+
+            <!-- 分享描述信息 -->
+            <div class="share-description">
+                <p data-lang-key="shareDescription">分享给更多人使用，大模型提高准确率，作者衷心感谢！</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Image Preview Modal -->
+    <div id="image-preview-modal" class="modal hidden">
+        <div class="modal-content preview-modal-content"> <!-- Added specific class -->
+            <div class="modal-header preview-modal-header"> <!-- Added specific class -->
+                <h3 class="modal-title" data-lang-key="imagePreviewTitle">签文分享预览</h3>
+                <span class="close-modal" id="close-preview-modal">&times;</span>
+            </div>
+            <div class="modal-body preview-modal-body" id="preview-modal-body"> <!-- Added specific class -->
+                <div class="image-container-wrapper"> <!-- New wrapper for image -->
+                    <img id="preview-image" src="" alt="Share Preview"/>
+                </div>
+                <div class="preview-instruction-area"> <!-- Renamed and dedicated area for instruction -->
+                    <!-- Instruction text will be dynamically added here by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Temporary container for generating share image (will be off-screen) -->
+    <div id="share-image-render-container" style="position: fixed; left: -9999px; top: -9999px; z-index: -10;"></div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
